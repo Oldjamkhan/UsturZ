@@ -6,11 +6,15 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: python main.py
     envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
       - key: BINANCE_API_KEY
         sync: false
       - key: BINANCE_API_SECRET
         sync: false
-      - key: GEMINI_API_KEY
+      - key: OWNER_ID
         sync: false
-      - key: TELEGRAM_BOT_TOKEN
-        sync: false
+      - key: RENDER
+        value: true
