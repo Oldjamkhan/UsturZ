@@ -213,5 +213,12 @@ async def main():
             unity_bridge.stop()
 
 if __name__ == "__main__":
-    import aiohttp.web # imported here for safety
+    import aiohttp.web
+    
+    # Ensure data directories exist for server mode
+    if Config.IS_SERVER:
+        for path in [Config.ENERGY_VAULT_PATH, Config.BOOKS_VAULT_PATH, Config.BRAIN_DIR, Config.UNITY_BUILDS_PATH, Config.DRAFTS_PATH]:
+            os.makedirs(path, exist_ok=True)
+            logger.info(f"Created/Verified directory: {path}")
+
     asyncio.run(main())

@@ -129,7 +129,7 @@ class AIEngine:
             """
 
         model = genai.GenerativeModel(
-            model_name="gemini-flash-latest",
+            model_name="gemini-1.5-flash",
             system_instruction=system_instruction
         )
         
