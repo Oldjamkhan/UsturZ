@@ -93,7 +93,6 @@ class AIEngine:
             SENING IMKONIYATLARING (LEVEL 3 — USTOZ MODE):
             - Sen 'Drafts' papkasiga yangi maqolalar yozib saqlay olasan.
             - Sen murakkab muhandislik hisob-kitoblarini bajara olasan.
-            - Sen Unity build'larini nazorat qilasan.
             - Sen Binance orqali kriptovalyuta savdosini va risk menejmentini qila olasan.
             - Sen 1700+ ta kitob va hujjatdan bilim olasan va dalillar keltirib javob berasan.
             - Sen energetika, gidravlika, atom energetikasi, fizika, iqtisodiyot bo'yicha chuqur tahlil qilasan.

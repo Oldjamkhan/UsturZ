@@ -24,12 +24,10 @@ class Config:
         ENERGY_VAULT_PATH = "./data/Energy_Vault"
         BOOKS_VAULT_PATH = "./data/books"
         BRAIN_DIR = "./data/brain"
-        UNITY_BUILDS_PATH = "./data/Unity_Builds"
     else:
-        ENERGY_VAULT_PATH = r"C:\Users\User\Documents\Oldjamkhan_Brain\Energy_Vault"
+        ENERGY_VAULT_PATH = r"D:\UsturZ_Core\UsturZ_Brain\Energy_Vault"
         BOOKS_VAULT_PATH = r"D:\1.book"
-        BRAIN_DIR = r"C:\Users\User\Documents\Oldjamkhan_Brain"
-        UNITY_BUILDS_PATH = r"C:\Users\User\Unity_Builds"
+        BRAIN_DIR = r"D:\UsturZ_Core\UsturZ_Brain"
 
     GRAPH_PATH = os.path.join(BRAIN_DIR, "graph_data.json")
     BOOKS_INDEX_PATH = os.path.join(BRAIN_DIR, "books_index.json")

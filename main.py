@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from aiogram.types import FSInputFile
 from config import Config
 from ai_engine import AIEngine
-from unity_bridge import UnityBridge
+import aiohttp.web
 
 # Configure logging
 logging.basicConfig(level=Config.LOG_LEVEL, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -18,20 +18,6 @@ ai_engine = AIEngine()
 # Initialize Bot and Dispatcher
 bot = Bot(token=Config.TELEGRAM_TOKEN)
 dp = Dispatcher()
-
-def build_callback(file_path):
-    """Callback triggered by UnityBridge when a new build is detected."""
-    try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(bot.send_message(
-            chat_id=Config.OWNER_ID, 
-            text=f"🚀 **Bratello, yangi build tayyor!**\nFayl: `{os.path.basename(file_path)}`\nUni tekshirib ko'ramizmi?"
-        ))
-    except Exception as e:
-        logger.error(f"Build callback error: {e}")
-
-# Initialize Unity Bridge
-unity_bridge = UnityBridge(Config.UNITY_BUILDS_PATH, build_callback)
 
 @dp.message(Command("myid"))
 async def cmd_myid(message: types.Message):
@@ -198,26 +184,21 @@ async def start_web_server():
 
 async def main():
     logger.info(f"Starting {Config.BOT_NAME} v{Config.BOT_VERSION} (Level 3 — UsturZ Mode)...")
-    if not Config.IS_SERVER:
-        unity_bridge.start()
         
     try:
         # Start dummy web server if running on a cloud service like Render
         if Config.IS_SERVER:
-            import aiohttp.web
             await start_web_server()
             
         await dp.start_polling(bot)
     finally:
-        if not Config.IS_SERVER:
-            unity_bridge.stop()
+        pass
 
 if __name__ == "__main__":
-    import aiohttp.web
     
     # Ensure data directories exist for server mode
     if Config.IS_SERVER:
-        for path in [Config.ENERGY_VAULT_PATH, Config.BOOKS_VAULT_PATH, Config.BRAIN_DIR, Config.UNITY_BUILDS_PATH, Config.DRAFTS_PATH]:
+        for path in [Config.ENERGY_VAULT_PATH, Config.BOOKS_VAULT_PATH, Config.BRAIN_DIR, Config.DRAFTS_PATH]:
             os.makedirs(path, exist_ok=True)
             logger.info(f"Created/Verified directory: {path}")
 
