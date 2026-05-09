@@ -20,14 +20,10 @@ class Config:
     # Render/Server support
     IS_SERVER = os.getenv("RENDER") == "true" or os.getenv("SERVER_MODE") == "true"
     
-    if IS_SERVER:
-        ENERGY_VAULT_PATH = "./data/Energy_Vault"
-        BOOKS_VAULT_PATH = "./data/books"
-        BRAIN_DIR = "./data/brain"
-    else:
-        ENERGY_VAULT_PATH = r"D:\UsturZ_Core\UsturZ_Brain\Energy_Vault"
-        BOOKS_VAULT_PATH = r"D:\1.book"
-        BRAIN_DIR = r"D:\UsturZ_Core\UsturZ_Brain"
+    # Paths
+    ENERGY_VAULT_PATH = os.getenv('ENERGY_VAULT_PATH', r"D:\UsturZ_Core\UsturZ_Brain\Energy_Vault" if not IS_SERVER else "./data/Energy_Vault")
+    BOOKS_VAULT_PATH = os.getenv('BOOKS_PATH', r"D:\1.book" if not IS_SERVER else "./data/books")
+    BRAIN_DIR = os.getenv('BRAIN_DIR', r"D:\UsturZ_Core\UsturZ_Brain" if not IS_SERVER else "./data/brain")
 
     GRAPH_PATH = os.path.join(BRAIN_DIR, "graph_data.json")
     BOOKS_INDEX_PATH = os.path.join(BRAIN_DIR, "books_index.json")

@@ -16,3 +16,4 @@ telethon
 schedule
 requests
 pandas
+pandas-ta

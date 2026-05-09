@@ -170,11 +170,12 @@ async def handle_message(message: types.Message):
     await process_autonomous_actions(message, response_text)
 
 async def health_check(request):
-    return aiohttp.web.Response(text="UsturZ Digital Twin is running smoothly!")
+    return aiohttp.web.json_response({"status": "ok", "message": "UsturZ Digital Twin is running smoothly!"})
 
 async def start_web_server():
     app = aiohttp.web.Application()
     app.router.add_get('/', health_check)
+    app.router.add_get('/health', health_check)
     runner = aiohttp.web.AppRunner(app)
     await runner.setup()
     port = int(os.getenv("PORT", 8080))
