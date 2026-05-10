@@ -12,7 +12,8 @@ class Config:
 
     TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-    OWNER_ID = os.getenv("OWNER_ID") # Set this in .env later
+    OWNER_ID = os.getenv("OWNER_ID")
+    PAPER_TRADE = os.getenv("PAPER_TRADE", "true") == "true"
     
     # Secret keywords for 'Digital Twin' activation
     SECRET_KEYWORDS = ["ukam", "bratello"]

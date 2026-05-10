@@ -1,6 +1,12 @@
 app = "usturz-bot"
 primary_region = "fra"
 
+[env]
+  PORT = "8080"
+  SERVER_MODE = "true"
+  BOOKS_PATH = "/tmp/books"
+  PAPER_TRADE = "true"
+
 [build]
 
 [http_service]
