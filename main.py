@@ -74,6 +74,9 @@ async def cmd_rebuild(message: types.Message):
     overview = ai_engine.book_vault.get_category_overview()
     await message.answer(f"✅ Indeks tayyor!\n\n{overview}", parse_mode="Markdown")
 
+    else:
+        await message.answer("ℹ️ Hozircha loglar mavjud emas.")
+
 @dp.message(Command("logs"))
 async def cmd_logs(message: types.Message):
     if str(message.from_user.id) != str(Config.OWNER_ID):
@@ -88,6 +91,51 @@ async def cmd_logs(message: types.Message):
         )
     else:
         await message.answer("ℹ️ Hozircha loglar mavjud emas.")
+
+@dp.message(Command("strategy"))
+async def cmd_strategy(message: types.Message):
+    """Show trading strategies."""
+    args = message.text.replace("/strategy", "").strip()
+    
+    if not args:
+        strategies = ai_engine.strategy_engine.get_all_strategies()
+        if not strategies:
+            await message.answer("📉 Hozircha strategiyalar mavjud emas. `Trading_Vault` papkasiga fayllar qo'shing.")
+            return
+            
+        text = "📈 **Mavjud Savdo Strategiyalari:**\n\n"
+        for s in strategies:
+            text += f"• `{s['name']}` ({s['type']})\n"
+        text += "\nBatafsil ma'lumot uchun: `/strategy <nom>`"
+        await message.answer(text, parse_mode="Markdown")
+    else:
+        strategy = ai_engine.strategy_engine.get_strategy_detail(args)
+        if strategy:
+            text = f"🎯 **Strategiya:** {strategy['name']}\n"
+            text += f"📂 **Turi:** {strategy['type']}\n"
+            text += f"⏱ **Timeframe:** {strategy['timeframe']}\n"
+            text += f"📊 **Indikatorlar:** {', '.join(strategy['indicators'])}\n\n"
+            text += f"📝 **Qoidalar:**\n{strategy['rules']}"
+            await message.answer(text, parse_mode="Markdown")
+        else:
+            await message.answer(f"❌ '{args}' nomli strategiya topilmadi.")
+
+@dp.message(Command("book"))
+async def cmd_book(message: types.Message):
+    """Search for books with specific details."""
+    query = message.text.replace("/book", "").strip()
+    if not query:
+        await message.answer("ℹ️ Kitob qidirish uchun mavzu yozing. Masalan: `/book gidravlika`")
+        return
+        
+    await bot.send_chat_action(chat_id=message.chat.id, action="typing")
+    results = ai_engine.book_vault.search(query, max_results=3)
+    
+    # Enrich search results with a more detailed "best match" suggestion
+    text = f"📚 **Qidiruv natijalari: \"{query}\"**\n\n{results}\n"
+    text += "\n💡 *Maslahat: To'liqroq ma'lumot uchun ushbu kitob nomini yozib so'rang.*"
+    
+    await message.answer(text, parse_mode="Markdown")
 
 async def process_autonomous_actions(message: types.Message, response_text: str):
     """Handles Level 3 Autonomous actions triggered by the AI."""

@@ -25,10 +25,12 @@ class Config:
     ENERGY_VAULT_PATH = os.getenv('ENERGY_VAULT_PATH', "./UsturZ_Brain/Energy_Vault")
     BOOKS_VAULT_PATH = os.getenv('BOOKS_PATH', "./books")
     BRAIN_DIR = os.getenv('BRAIN_DIR', "./UsturZ_Brain")
+    TRADING_VAULT_PATH = os.path.join(BRAIN_DIR, "Trading_Vault")
 
     GRAPH_PATH = os.path.join(BRAIN_DIR, "graph_data.json")
     BOOKS_INDEX_PATH = os.path.join(BRAIN_DIR, "books_index.json")
     VISION_INDEX_PATH = os.path.join(BRAIN_DIR, "vision_index.json")
+    STRATEGY_INDEX_PATH = os.path.join(BRAIN_DIR, "strategy_index.json")
     DRAFTS_PATH = os.path.join(BRAIN_DIR, "Drafts")
 
     # Logging configuration

@@ -1,0 +1,8 @@
+Strategy Name: MACD Trend Follower
+Type: trend
+Indicators: MACD, Bollinger Bands
+Timeframe: 1h/4h
+Rules:
+- Buy when MACD signal line crosses above zero and price is at the lower Bollinger Band.
+- Sell when MACD signal line crosses below zero and price is at the upper Bollinger Band.
+- Risk/Reward: 1:2.

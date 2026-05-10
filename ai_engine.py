@@ -11,6 +11,7 @@ from book_vault import BookVault
 from vision_vault import VisionVault
 from binance_engine import BinanceEngine
 from risk_manager import RiskManager
+from strategy_engine import StrategyEngine
 import re
 
 logger = logging.getLogger(__name__)
@@ -44,6 +45,10 @@ class AIEngine:
         # Initialize Trading Engines
         self.binance = BinanceEngine()
         self.risk = RiskManager()
+        self.strategy_engine = StrategyEngine(
+            vault_path=Config.TRADING_VAULT_PATH,
+            index_path=Config.STRATEGY_INDEX_PATH
+        )
         
         if not Config.GEMINI_API_KEY or Config.GEMINI_API_KEY == "YOUR_GEMINI_API_KEY_HERE":
             self.model_owner = None
@@ -62,6 +67,13 @@ class AIEngine:
         else:
             logger.info(f"UsturZ: BookVault loaded with {self.book_vault.index.get('total_files', 0)} files")
         
+        # Build strategy index
+        if not os.path.exists(Config.STRATEGY_INDEX_PATH):
+            logger.info("UsturZ: Building Strategy index...")
+            self.strategy_engine.build_index()
+        else:
+            self.strategy_engine.load_index()
+            
         self.chat_sessions = {}
 
     async def get_response(self, user_id: int, message_text: str, username: str = "Unknown", is_owner: bool = False, image_data=None):

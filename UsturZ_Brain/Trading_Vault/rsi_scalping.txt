@@ -1,0 +1,9 @@
+Strategy Name: RSI Scalping
+Type: scalping
+Indicators: RSI, EMA 200
+Timeframe: 5m/15m
+Rules:
+- Buy when RSI is below 30 and price is above EMA 200.
+- Sell when RSI is above 70 or price crosses below EMA 200.
+- Stop Loss: 10 pips.
+- Take Profit: 20 pips.
