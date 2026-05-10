@@ -6,14 +6,16 @@ from aiogram.filters import Command
 from aiogram.types import FSInputFile
 from config import Config
 from ai_engine import AIEngine
+from intelligence_hub import IntelligenceHub
 import aiohttp.web
 
 # Configure logging
 logging.basicConfig(level=Config.LOG_LEVEL, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Initialize AI Engine
+# Initialize AI Engine and Intelligence Hub
 ai_engine = AIEngine()
+intelligence_hub = IntelligenceHub(ai_engine)
 
 # Initialize Bot and Dispatcher
 bot = Bot(token=Config.TELEGRAM_TOKEN)
@@ -172,10 +174,28 @@ async def handle_message(message: types.Message):
 async def health_check(request):
     return aiohttp.web.json_response({"status": "ok"})
 
+async def email_webhook(request):
+    try:
+        data = await request.json()
+        content = data.get("content", "")
+        source = data.get("source", "email")
+        
+        if not content:
+            return aiohttp.web.json_response({"status": "error", "message": "No content provided"}, status=400)
+            
+        logger.info(f"Received email webhook from {source}")
+        result = await intelligence_hub.process_incoming_item(content, source=source)
+        
+        return aiohttp.web.json_response({"status": "ok", "processed": True, "category": result.get('category') if result else None})
+    except Exception as e:
+        logger.error(f"Error in email webhook: {e}")
+        return aiohttp.web.json_response({"status": "error", "message": str(e)}, status=500)
+
 async def start_web_server():
     app = aiohttp.web.Application()
     app.router.add_get('/', health_check)
     app.router.add_get('/health', health_check)
+    app.router.add_post('/webhook/email', email_webhook)
     runner = aiohttp.web.AppRunner(app)
     await runner.setup()
     port = int(os.getenv("PORT", 8080))
