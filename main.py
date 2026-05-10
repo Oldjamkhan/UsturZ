@@ -170,7 +170,7 @@ async def handle_message(message: types.Message):
     await process_autonomous_actions(message, response_text)
 
 async def health_check(request):
-    return aiohttp.web.json_response({"status": "ok", "message": "UsturZ Digital Twin is running smoothly!"})
+    return aiohttp.web.json_response({"status": "ok"})
 
 async def start_web_server():
     app = aiohttp.web.Application()

@@ -21,9 +21,9 @@ class Config:
     IS_SERVER = os.getenv("RENDER") == "true" or os.getenv("SERVER_MODE") == "true"
     
     # Paths
-    ENERGY_VAULT_PATH = os.getenv('ENERGY_VAULT_PATH', r"D:\UsturZ_Core\UsturZ_Brain\Energy_Vault" if not IS_SERVER else "./data/Energy_Vault")
-    BOOKS_VAULT_PATH = os.getenv('BOOKS_PATH', r"D:\1.book" if not IS_SERVER else "./data/books")
-    BRAIN_DIR = os.getenv('BRAIN_DIR', r"D:\UsturZ_Core\UsturZ_Brain" if not IS_SERVER else "./data/brain")
+    ENERGY_VAULT_PATH = os.getenv('ENERGY_VAULT_PATH', "./UsturZ_Brain/Energy_Vault")
+    BOOKS_VAULT_PATH = os.getenv('BOOKS_PATH', "./books")
+    BRAIN_DIR = os.getenv('BRAIN_DIR', "./UsturZ_Brain")
 
     GRAPH_PATH = os.path.join(BRAIN_DIR, "graph_data.json")
     BOOKS_INDEX_PATH = os.path.join(BRAIN_DIR, "books_index.json")
